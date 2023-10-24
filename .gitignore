@@ -1,0 +1,9 @@
+Pipfile
+Pipfile.lock
+__pylance__
+**/migrations/
+migrations
+**/__pycache__/
+.DS_Store
+db.sqlite3
+.env
