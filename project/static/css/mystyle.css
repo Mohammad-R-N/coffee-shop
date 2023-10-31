@@ -1,0 +1,27 @@
+.my-header-bg {
+    background-image: url('../img/bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.8;
+    background-color: #212121;
+}
+
+.my-bg {
+    background-color: #212121;
+}
+
+
+.my-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.my-img {
+    opacity: 0.9;
+    filter: grayscale(90%)
+}
+
+.my-text {
+    text-decoration: solid;
+}
