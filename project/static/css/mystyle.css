@@ -7,14 +7,18 @@
 }
 
 .my-bg {
-    background-color: #212121;
+    background-color: #9e6405;
+
 }
 
+.my-text-color {
+    color: #9e6405;
+}
 
 .my-footer {
-    position: fixed;
+    position: relative;
     bottom: 0;
-    width: 100%;
+    /* width: 100%; */
 }
 
 .my-img {
