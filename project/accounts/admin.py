@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .form import UserCreationForm, UserChangeForm
-from .models import User
+from .models import User, Otp
 from django.contrib.auth.models import Group
 
 
@@ -53,3 +53,10 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.unregister(Group)
 admin.site.register(User, UserAdmin)
+
+
+@admin.register(Otp)
+class OtpAdmin(admin.ModelAdmin):
+    list_display = ("phone_number", "code", "created")
+    search_fields = ("phone_number",)
+    ordering = ("created",)
