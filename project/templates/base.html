@@ -14,36 +14,10 @@
     {% block link %}{% endblock link %}
 </head>
 
-<body class="my-bg">
+<body class="">
 
-    <div class="px-5 my-3">
-        <nav class="navbar navbar-expand-lg bg-dark rounded-5 px-3" aria-label="Thirteenth navbar example">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarsExample11" aria-controls="navbarsExample11" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="bi bi-list text-warning"></span>
-                </button>
 
-                <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
-                    <a class="navbar-brand col-lg-3 me-0 text-warning" href="#">Life Music</a>
-                    <ul class="navbar-nav col-lg-6 justify-content-lg-center">
-                        <li class="nav-item">
-                            <a class="nav-link text-warning" aria-current="page" href="">Home</a>
-                        </li>
-                        {% block links %}
-                        {% endblock links %}
-                    </ul>
-                    <div class="d-lg-flex col-lg-3 justify-content-lg-end">
-                        <a class="btn btn-warning mx-2 " href="">SignUp</a>
-                        <a class="btn btn-warning mx-2" href="">LogIn</a>
-                        {% block button %}
-                        {% endblock button %}
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
+    {%include "inc/navbar.html"%}
 
     {%include "inc/messages.html"%}
 
@@ -51,16 +25,18 @@
 
     {% endblock header %}
 
+
+
     {% block content %}
 
     {% endblock content %}
 
 
     {%include "inc/footer.html"%}
+
+
     <script src="{%static 'js/popper.js'%}"></script>
-
     <script src="{%static 'js/bootstrap.js'%}"></script>
-
     {% block script %}
 
     {% endblock script %}
