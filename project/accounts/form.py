@@ -63,3 +63,7 @@ class UserRegistrationForm(forms.Form):
     password = forms.CharField(
         label="Password", widget=forms.PasswordInput, max_length=18
     )
+
+
+class OtpForm(forms.Form):
+    code = forms.IntegerField()
