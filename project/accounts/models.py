@@ -31,6 +31,19 @@ class User(AbstractBaseUser):
         return self.is_admin
 
 
+class Address(models.Model):
+    name = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    description = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ("city",)
+
+    def __str__(self) -> str:
+        return f"{self.user} - {self.name}"
+
+
 class Otp(models.Model):
     phone_number = models.CharField(max_length=11)
     code = models.PositiveSmallIntegerField()
