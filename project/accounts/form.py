@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from .models import User
+from .models import User, Otp
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
@@ -57,12 +57,27 @@ class UserChangeForm(forms.ModelForm):
 class UserRegistrationForm(forms.Form):
     email = forms.EmailField(label="Email")
     phone_number = forms.CharField(label="Phone Number", max_length=11)
-    first_name = forms.CharField(label="First Name", max_length=100)
-    last_name = forms.CharField(label="Last Name", max_length=100)
-    age = forms.IntegerField(label="Age")
+    first_name = forms.CharField(label="First Name", max_length=100, required=False)
+    last_name = forms.CharField(label="Last Name", max_length=100, required=False)
+    age = forms.IntegerField(label="Age", required=False)
     password = forms.CharField(
         label="Password", widget=forms.PasswordInput, max_length=18
     )
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        user = User.objects.filter(email=email).exists()
+        if user:
+            raise ValidationError("This email already exists")
+        return email
+
+    def clean_phone(self):
+        phone_number = self.cleaned_data["phone_number"]
+        user = User.objects.filter(phone_number=phone_number).exists()
+        if user:
+            raise ValidationError("This phone number already exists")
+        Otp.objects.filter(phone_number=phone_number).delete()
+        return phone_number
 
 
 class OtpForm(forms.Form):
