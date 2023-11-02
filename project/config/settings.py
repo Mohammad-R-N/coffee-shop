@@ -136,3 +136,8 @@ AUTHENTICATION_BACKEND = [
 ]
 
 AUTH_USER_MODEL = "accounts.User"
+
+
+#! Media Files
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
