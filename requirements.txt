@@ -3,3 +3,8 @@ pillow
 django-environ
 psycopg2-binary
 djangorestframework
+django-storages
+boto3
+celery
+rabbitmq
+django-celery-beat
