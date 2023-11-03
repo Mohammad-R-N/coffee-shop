@@ -13,3 +13,11 @@ class ProductDetailView(View):
 
     def post(self, request):
         pass
+
+
+class BucketHome(IsAdminUserMixin, View):
+    template_name = "products/bucket.html"
+
+    def get(self, request):
+        objects = tasks.all_bucket_objects_task()
+        return render(request, self.template_name, {"objects": objects})
