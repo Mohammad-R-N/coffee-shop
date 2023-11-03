@@ -5,6 +5,14 @@ from django.urls import reverse
 class Category(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
+    sub_category = models.ForeignKey(
+        "self",
+        on_delete=models.CASCADE,
+        related_name="subcategory",
+        null=True,
+        blank=True,
+    )
+    is_sub = models.BooleanField(default=False)
 
     class Meta:
         ordering = ("name",)
@@ -16,7 +24,7 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         return reverse(
-            "core:category_filter",
+            "core:category-slug",
             args=[
                 self.slug,
             ],
@@ -27,7 +35,7 @@ class Product(models.Model):
     category = models.ManyToManyField(Category, related_name="products")
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    image = models.ImageField(upload_to="products/%Y/%m/%d/")
+    image = models.ImageField()
     description = models.TextField()
     price = models.IntegerField()
     available = models.BooleanField(default=True)
@@ -42,7 +50,7 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse(
-            "core:product_detail",
+            "products:product-detail",
             args=[
                 self.slug,
             ],
