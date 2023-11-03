@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "products.apps.ProductsConfig",
     "interactions.apps.InteractionsConfig",
+    "storages",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -111,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Tehran"
 
 USE_I18N = True
 
@@ -141,3 +143,14 @@ AUTH_USER_MODEL = "accounts.User"
 #! Media Files
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+#!Storeges
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+AWS_ACCESS_KEY_ID = "UdlngZS2EvNgYTvN"
+AWS_SECRET_ACCESS_KEY = "4LwkLLEuUDDoqcRmfwCJusOHVyh8LbGR"
+AWS_S3_ENDPOINT_URL = "https://c148995.parspack.net"
+AWS_STORAGE_BUCKET_NAME = "c148995"
+AWS_SERVICE_NAME = "s3"
+AWS_S3_FILE_OVERWRITE = False
+AWS_LOCAL_STORAGE = f"{BASE_DIR}/aws/"
