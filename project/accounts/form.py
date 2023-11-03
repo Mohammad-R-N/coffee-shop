@@ -71,7 +71,7 @@ class UserRegistrationForm(forms.Form):
             raise ValidationError("This email already exists")
         return email
 
-    def clean_phone(self):
+    def clean_phone_number(self):
         phone_number = self.cleaned_data["phone_number"]
         user = User.objects.filter(phone_number=phone_number).exists()
         if user:
@@ -82,3 +82,8 @@ class UserRegistrationForm(forms.Form):
 
 class OtpForm(forms.Form):
     code = forms.IntegerField()
+
+
+class UserLoginForm(forms.Form):
+    phone_number = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
