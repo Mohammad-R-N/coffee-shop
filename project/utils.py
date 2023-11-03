@@ -2,6 +2,7 @@ from kavenegar import *
 import re
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 def send_otp(phone_number, code):
@@ -49,3 +50,8 @@ class PhoneNumberField(models.CharField):
 
         formatted_phone_number = re.sub(r"^\+98|^0098", "0", value)
         return formatted_phone_number
+
+
+class IsAdminUserMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_admin
