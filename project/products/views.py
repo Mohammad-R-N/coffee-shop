@@ -28,3 +28,10 @@ class DeleteBucketObject(IsAdminUserMixin, View):
         tasks.delete_object_task.delay(key)
         messages.success(request, "your object will be delete soon.", "info")
         return redirect("products:bucket")
+
+
+class DownloadBucketObject(IsAdminUserMixin, View):
+    def get(self, request, key):
+        tasks.download_object_task.delay(key)
+        messages.success(request, "your download will start soon.", "info")
+        return redirect("products:bucket")
