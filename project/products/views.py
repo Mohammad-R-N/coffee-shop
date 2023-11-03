@@ -21,3 +21,10 @@ class BucketHome(IsAdminUserMixin, View):
     def get(self, request):
         objects = tasks.all_bucket_objects_task()
         return render(request, self.template_name, {"objects": objects})
+
+
+class DeleteBucketObject(IsAdminUserMixin, View):
+    def get(self, request, key):
+        tasks.delete_object_task.delay(key)
+        messages.success(request, "your object will be delete soon.", "info")
+        return redirect("products:bucket")
