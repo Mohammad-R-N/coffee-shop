@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .form import UserRegistrationForm, OtpForm
+from .form import UserRegistrationForm, OtpForm, UserLoginForm
 from utils import send_otp
 from .models import Otp, User
 import random
@@ -72,4 +72,11 @@ class OtpView(View):
             else:
                 messages.error(request, "THIS CODE IN WRONG!", "warning")
                 return redirect("accounts:otp")
+        return redirect("core:home-page")
+
+
+class UserLogoutView(LoginRequiredMixin, View):
+    def get(self, request):
+        logout(request)
+        messages.success(request, "you logged out successfully", "success")
         return redirect("core:home-page")
