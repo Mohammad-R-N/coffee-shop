@@ -18,4 +18,9 @@ urlpatterns = [
         views.UserPasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),
+    path(
+        "confirm/complete",
+        views.UserPasswordResetCompleteView.as_view(),
+        name="password_reset_complete",
+    ),
 ]
