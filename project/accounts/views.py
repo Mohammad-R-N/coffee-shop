@@ -4,11 +4,13 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
 from .form import UserRegistrationForm, OtpForm, UserLoginForm
 from utils import send_otp
 from .models import Otp, User
 import random
-from django.contrib import messages
 
 
 class UserRegistrationView(View):
@@ -103,3 +105,9 @@ class UserLogoutView(LoginRequiredMixin, View):
         logout(request)
         messages.success(request, "you logged out successfully", "success")
         return redirect("core:home-page")
+
+
+class UserPasswordResetView(auth_views.PasswordResetView):
+    template_name = "accounts/reset_password.html"
+    success_url = reverse_lazy("accounts:password_reset_done")
+    email_template_name = "accounts/email_reset_password.html"
