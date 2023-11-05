@@ -120,3 +120,7 @@ class UserPasswordResetDoneView(auth_views.PasswordResetDoneView):
 class UserPasswordResetConfirmView(auth_views.PasswordResetConfirmView):
     template_name = "accounts/confirm_reset_password.html"
     success_url = reverse_lazy("accounts:password_reset_complete")
+
+
+class UserPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    template_name = "accounts/complete_reset_password.html"
