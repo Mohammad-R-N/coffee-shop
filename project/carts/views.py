@@ -32,3 +32,13 @@ class CartRemoveView(View):
         product = get_object_or_404(Product, id=product_id)
         cart.remove(product)
         return redirect("carts:cart")
+
+
+class OrderDetailView(LoginRequiredMixin, View):
+    form_class = CouponApplyForm
+
+    def get(self, request, order_id):
+        order = get_object_or_404(Order, id=order_id)
+        return render(
+            request, "carts/order.html", {"order": order, "form": self.form_class}
+        )
