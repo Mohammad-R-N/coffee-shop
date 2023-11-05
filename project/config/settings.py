@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "storages",
     "django_celery_beat",
     "ckeditor",
+    "django.contrib.postgres",
 ]
 
 MIDDLEWARE = [
