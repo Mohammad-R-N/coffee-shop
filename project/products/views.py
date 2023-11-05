@@ -5,18 +5,66 @@ from . import tasks
 from utils import IsAdminUserMixin
 from django.contrib import messages
 from carts.forms import CartAddForm
+from interactions.models import Comment
+from interactions.forms import CommentCreateForm, CommentReplyForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
 class ProductDetailView(View):
+    form_class = CommentCreateForm
+    form_class_reply = CommentReplyForm
+
+    def setup(self, request, *args, **kwargs):
+        self.product_instance = get_object_or_404(Product, slug=kwargs["slug"])
+        return super().setup(request, *args, **kwargs)
+
     def get(self, request, slug):
-        product = get_object_or_404(Product, slug=slug)
         form = CartAddForm()
+        comments = self.product_instance.pcomments.filter(is_reply=False)
         return render(
-            request, "products/product-detail.html", {"product": product, "form": form}
+            request,
+            "products/product-detail.html",
+            {
+                "product": self.product_instance,
+                "form": form,
+                "comments": comments,
+                "comment_form": self.form_class,
+                "reply_form": self.form_class_reply,
+            },
         )
 
-    def post(self, request):
-        pass
+    @method_decorator(login_required)
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.user = request.user
+            new_comment.product = self.product_instance
+            new_comment.save()
+            messages.success(request, "your comment submitted successfully", "success")
+            return redirect(
+                "products:product-detail",
+                self.product_instance.slug,
+            )
+
+
+class ProductAddReplyView(View):
+    form_class = CommentReplyForm
+
+    def post(self, request, product_id, comment_id):
+        product = get_object_or_404(Product, id=product_id)
+        comment = get_object_or_404(Comment, id=comment_id)
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.user = request.user
+            reply.product = product
+            reply.reply = comment
+            reply.is_reply = True
+            reply.save()
+            messages.success(request, "your reply submitted successfully", "success")
+        return redirect("products:product-detail", product.slug)
 
 
 class BucketHome(IsAdminUserMixin, View):
