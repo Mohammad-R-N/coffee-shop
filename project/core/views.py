@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views import View
 from products.models import Category, Product
+from django.contrib.postgres.search import TrigramSimilarity
+from django.db.models.functions import Greatest
 
 
 class HomeView(View):
@@ -15,3 +17,19 @@ class HomeView(View):
             "core/home-page.html",
             {"products": products, "categories": categories},
         )
+
+
+class SearchProducts(View):
+    def get(self, request):
+        result = request.GET.get("searchbox")
+        products = Product.objects.all()
+        if result:
+            products = (
+                products.annotate(
+                    similarity=TrigramSimilarity("name", str(result)),
+                )
+                .filter(similarity__gt=0.3)
+                .order_by("-similarity")
+            )
+
+        return render(request, "core/search_results.html", {"results": products})
