@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "ckeditor",
     "django.contrib.postgres",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
