@@ -8,8 +8,13 @@
         <img src="{{product.image.url}}" class="card-img-top">
         <div class="card-body">
             <h5 class="card-title">{{product.name}}</h5>
+            <p>{{ product.description|safe }}</p><br /><br />
             <a href="{{product.get_absolute_url}}" class="btn btn-primary">Detail</a>
         </div>
+        <form action="{% url 'carts:cart_add' product.id %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="add to cart">
     </div>
 </div>
 
