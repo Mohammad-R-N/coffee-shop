@@ -57,3 +57,27 @@ class OrderCreateView(LoginRequiredMixin, View):
             )
         cart.clear()
         return redirect("carts:order_detail", order.id)
+
+
+class CouponApplyView(LoginRequiredMixin, View):
+    form_class = CouponApplyForm
+
+    def post(self, request, order_id):
+        now = datetime.datetime.now()
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            code = form.cleaned_data["code"]
+            try:
+                coupon = Coupon.objects.get(
+                    code__exact=code,
+                    valid_from__lte=now,
+                    valid_to__gte=now,
+                    active=True,
+                )
+            except Coupon.DoesNotExist:
+                messages.error(request, "this coupon does not exists", "danger")
+                return redirect("carts:order_detail", order_id)
+            order = Order.objects.get(id=order_id)
+            order.discount = coupon.discount
+            order.save()
+        return redirect("carts:order_detail", order_id)
