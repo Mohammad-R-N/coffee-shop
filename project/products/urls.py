@@ -21,4 +21,9 @@ bucket_urls = [
 urlpatterns = [
     path("bucket/", include(bucket_urls)),
     path("<slug:slug>/", views.ProductDetailView.as_view(), name="product-detail"),
+    path(
+        "reply/<int:product_id>/<int:comment_id>/",
+        views.ProductAddReplyView.as_view(),
+        name="add_reply",
+    ),
 ]
