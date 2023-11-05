@@ -4,12 +4,16 @@ from .models import Product
 from . import tasks
 from utils import IsAdminUserMixin
 from django.contrib import messages
+from carts.forms import CartAddForm
 
 
 class ProductDetailView(View):
     def get(self, request, slug):
         product = get_object_or_404(Product, slug=slug)
-        return render(request, "products/product-detail.html", {"product": product})
+        form = CartAddForm()
+        return render(
+            request, "products/product-detail.html", {"product": product, "form": form}
+        )
 
     def post(self, request):
         pass
