@@ -9,4 +9,5 @@
     {{ form.as_p }}
     <input type="submit" value="Apply">
 </form>
+<a href="{% url 'carts:request' order.id %}" class="btn btn-primary">Pay</a>
 {% endblock %}
