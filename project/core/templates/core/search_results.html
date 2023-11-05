@@ -1,0 +1,36 @@
+{% extends "base.html"%}
+{% load static %}
+
+{%block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12 pt-120 pb-120">
+            {% if results %}
+            {% for product in results %}
+            <div class="col-xl-4 col-lg-4 col-md-4 l-item grid-item cat1 cat3 cat4 mt-35">
+                {% csrf_token %}
+                <div class="container">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{product.image.url}}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{product.name}}</h5>
+                            <p>{{ product.description|safe }}</p><br /><br />
+                            <a href="{{product.get_absolute_url}}" class="btn btn-primary">Detail</a>
+                        </div>
+                        <form action="{% url 'carts:cart_add' product.id %}" method="post">
+                            {% csrf_token %}
+                            {{ form }}
+                            <input type="submit" value="add to cart">
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="mt-35">No products found for your search query.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
