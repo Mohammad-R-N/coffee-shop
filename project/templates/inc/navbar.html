@@ -34,6 +34,7 @@
                 <a href="{% url 'accounts:registration'%}"><button type="button"
                         class="btn btn-warning">Register</button></a>
                 {% endif %}
+                <a class="nav-link active" href="{% url 'carts:cart' %}">CART {{ cart|length }}</a>
             </div>
         </div>
     </div>
