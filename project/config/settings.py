@@ -193,3 +193,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "mohammad.razzaghi01@gmail.com"
 EMAIL_HOST_PASSWORD = "xsknggotyyaulwzu"
 DEFAULT_FROM_EMAIL = "Coffee Shop"
+
+
+# ZARINPAL
+MERCHANT = "00000000-0000-0000-0000-000000000000"
+SANDBOX = True
