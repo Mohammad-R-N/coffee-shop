@@ -42,3 +42,18 @@ class OrderDetailView(LoginRequiredMixin, View):
         return render(
             request, "carts/order.html", {"order": order, "form": self.form_class}
         )
+
+
+class OrderCreateView(LoginRequiredMixin, View):
+    def get(self, request):
+        cart = Cart(request)
+        order = Order.objects.create(user=request.user)
+        for item in cart:
+            OrderItem.objects.create(
+                order=order,
+                product=item["product"],
+                price=item["price"],
+                quantity=item["quantity"],
+            )
+        cart.clear()
+        return redirect("carts:order_detail", order.id)
