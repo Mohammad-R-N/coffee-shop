@@ -12,3 +12,4 @@ redis==5.0.1
 hiredis==2.2.3
 django-ckeditor==6.7.0
 kavenegar==1.1.2
+requests==2.31.0
