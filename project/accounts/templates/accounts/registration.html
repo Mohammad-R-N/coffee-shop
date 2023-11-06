@@ -1,11 +1,53 @@
-{% extends 'base.html' %}
+{%extends "base.html"%}
+{% load static %}
+
+{% block title %}
+SignUp
+{% endblock title %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/login-signin.css' %}">
+{% endblock link %}
 
 
-{%block content %}
-<form action="" method="post" novalidate>
-    {%csrf_token%}
-    {{form.as_p}}
-    <input type="submit" value="REGISTER">
-</form>
+{% block header %}
+<div class="d-flex justify-content-center my-5 py-5 mb-5">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="card bg-dark">
+            <a class="singup">Registration</a>
+            <div class="inputBox1">
+                {{form.email}}
+                <span class="user">Email</span>
+            </div>
 
-{%endblock%}
+            <div class="inputBox">
+                {{form.phone_number}}
+                <span class="user">Phone</span>
+            </div>
+            <div class="inputBox">
+                {{form.first_name}}
+                <span class="user">First Name</span>
+            </div>
+            <div class="inputBox">
+                {{form.last_name}}
+                <span class="user">Last Name</span>
+            </div>
+            <div class="inputBox">
+                {{form.age}}
+                <span class="user">Age</span>
+            </div>
+            <div class="inputBox">
+                {{form.password}}
+                <span class="user">Password</span>
+            </div>
+
+            <input class="enter" type="submit" value="SignUp">
+
+        </div>
+    </form>
+
+
+</div>
+
+{% endblock header %}
