@@ -3,32 +3,36 @@
 
 
 {% block content %}
-<div class="container">
-    <div class="card" style="width: 18rem;">
-        <img src="{{product.image.url}}" class="card-img-top">
-        <div class="card-body">
-            <h5 class="card-title">{{product.name}}</h5>
-            <p>{{ product.description|safe }}</p><br /><br />
-            <a href="{{product.get_absolute_url}}" class="btn btn-primary">Detail</a>
-        </div>
-        <form action="{% url 'carts:cart_add' product.id %}" method="post">
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="add to cart">
-        </form>
-    </div>
-    <br><br><br>
-    <div>
-        {% if request.user.is_authenticated %}
-        <form action="" method="post">
-            {% csrf_token %}
-            {{ comment_form.as_p }}
-            <input type="submit" value="Send">
-        </form> <br />
-        {% else %}
-        <p class="alert alert-danger">Only logged in users can comment.</p>
-        {% endif %}
 
+<div class="container my-4">
+
+    <div class="">
+        <div class="single_product">
+            <div class="container-fluid" style=" background-color: #fff; padding: 11px;">
+                <div class="row">
+                    <div class="col-lg-4 order-lg-2 order-1">
+                        <div class="image_selected"><img src="{{product.image.url}}" alt=""
+                                style="width: 400px; height: 400px;">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 order-3">
+                        <div class="product_description">
+                            <div class="product_name" style="font-size: large;">{{product.name}}</div>
+
+                            <hr class="singleline">
+                            <div class="product_name">{{ product.description|safe }}</div>
+                            <br><br><br><br><br><br>
+                            <div>PRICE: {{product.price}} R</div><br>
+                            <form action="{% url 'carts:cart_add' product.id %}" method="post">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <input class="btn btn-dark  text-warning" type="submit" value="add to cart">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <br><br><br>
 
@@ -42,14 +46,14 @@
             <form action="{% url 'products:add_reply' product.id comment.id %}" method="post">
                 {% csrf_token %}
                 {{ reply_form.as_p }}
-                <input type="submit" value="send">
+                <input class="btn btn-dark  text-warning" type="submit" value="send">
             </form>
             {% endif %}
 
 
             {% with replies=comment.rcomments.all %}
             {% for reply in replies %}
-            <p class="bg-primary p-3 m-2">{{ reply.user }} <br /> {{ reply.body }}</p>
+            <p class="bg-warning text-dark p-3 m-2">{{ reply.user }} <br /> {{ reply.body }}</p>
             {% endfor %}
             {% endwith %}
 
@@ -58,9 +62,28 @@
         {% empty %}
         <p>No comments yet!</p>
         {% endfor %}
+        <div>
+            {% if request.user.is_authenticated %}
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <input class="btn btn-dark  text-warning" type="submit" value="Send">
+            </form> <br />
+            {% else %}
+            <p class="alert alert-danger">Only logged in users can comment.</p>
+            {% endif %}
+
+        </div>
     </div>
-
-
 </div>
+
+
+
+
+
+
+<!--
+    ========================================================
+-->
 
 {% endblock content %}
