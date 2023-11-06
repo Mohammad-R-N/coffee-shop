@@ -1,4 +1,4 @@
-<header class=" p-3" style="background-color: rgba(158, 100, 5,0.7);">
+<header class=" p-3" style="background-color: rgba(233, 144, 0, 0.7);">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
@@ -8,16 +8,35 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="{% url 'core:home-page' %}" class="nav-link px-2" style="color: #7b4605;">Home</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                <li><a href="{% url 'core:home-page' %}" class="nav-link px-2" style="color: #2e1900;">Home</a></li>
+                {% for category in categories %}
+                <li>
+                    <div class="btn-group">
+                        <a href="{{ category.get_absolute_url }}" class="nav-link px-2 text-dark">
+                            {{ category.name }}</a>
+                        <button type="menu" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            {% for sub in category.subcategory.all %}
+                            <li><a class="dropdown-item" href="{{ sub.get_absolute_url }}">{{ sub.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                </li>
+                {% endfor %}
+
 
                 {% if request.user.is_admin %}
-                <li><a class="nav-link active" href="{% url 'products:bucket' %}">Bucket</a></li>
+                <li><a class="nav-link active text-dark" href="{% url 'products:bucket' %}">Bucket</a></li>
                 {% endif %}
             </ul>
+
+            <a class="nav-link  active px-2 mx-2 btn" style="align-items: center;" href="{% url 'carts:cart' %}"><button
+                    type="button" class="btn btn-dark  text-warning bi bi-cart">{{cart|length }}
+                    CART</button></a>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search"
                 action="{% url 'core:search_products' %}">
@@ -25,17 +44,17 @@
                     placeholder="Search..." aria-label="Search">
             </form>
 
-            <div class="text-end">
+            <div class=" nav">
                 {% if request.user.is_authenticated %}
                 <a class="nav-link active" href="{% url 'accounts:user_logout' %}"><button type="button"
-                        class="btn btn-warning">Logout</button></a>
+                        class="btn btn-dark  text-warning">Logout</button></a>
+
                 {% else %}
-                <a class="nav-link active" href="{% url 'accounts:user_login' %}"><button type="button"
-                        class="btn btn-outline-light me-2">Login</button></a>
-                <a href="{% url 'accounts:registration'%}"><button type="button"
-                        class="btn btn-warning">Register</button></a>
+                <a class="px-2" href="{% url 'accounts:user_login' %}"><button type="button"
+                        class="btn btn-dark  text-warning">Login</button></a>
+                <a class="" href="{% url 'accounts:registration'%}"><button type="button"
+                        class="btn btn-dark  text-warning">Register</button></a>
                 {% endif %}
-                <a class="nav-link active" href="{% url 'carts:cart' %}">CART {{ cart|length }}</a>
             </div>
         </div>
     </div>
