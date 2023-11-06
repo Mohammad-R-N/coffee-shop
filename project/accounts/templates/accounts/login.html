@@ -1,9 +1,37 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block content %}
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Login">
-</form>
-{% endblock %}
+{% block title %}
+LogIn
+{% endblock title %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/login-signin.css' %}">{% endblock link %}
+
+
+{% block header %}
+<div class="d-flex justify-content-center my-5 py-5 mb-5">
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <div class="card bg-dark">
+            <a class="singup">LogIn</a>
+            <div class="inputBox1">
+                {{form.phone_number}}
+                <span class="user">PHONE</span>
+            </div>
+
+            <div class="inputBox">
+                {{form.password}}
+                <span>Password</span>
+            </div>
+            <a href="{% url 'accounts:reset_password'%}" class="text-warning" style="text-decoration: none;">FORGOT
+                PASSWORD</a>
+            <input class="enter" type="submit" value="LogIn">
+        </div>
+    </form>
+
+
+</div><br><br><br><br><br><br><br><br><br><br><br>
+
+{% endblock header %}
