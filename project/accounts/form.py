@@ -30,7 +30,7 @@ class UserCreationForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.changed_data("password2"))
+        user.set_password(self.cleaned_data["password2"])
         if commit:
             user.save()
         return user
@@ -56,12 +56,25 @@ class UserChangeForm(forms.ModelForm):
 
 class UserRegistrationForm(forms.Form):
     email = forms.EmailField(label="Email")
-    phone_number = forms.CharField(label="Phone Number", max_length=11)
-    first_name = forms.CharField(label="First Name", max_length=100, required=False)
-    last_name = forms.CharField(label="Last Name", max_length=100, required=False)
-    age = forms.IntegerField(label="Age", required=False)
+    phone_number = forms.CharField(
+        label="Phone Number",
+        max_length=11,
+        widget=forms.TextInput(attrs={"class": "inputBox1"}),
+    )
+    first_name = forms.CharField(
+        label="First Name",
+        max_length=100,
+        widget=forms.TextInput(attrs={"class": "inputBox1"}),
+    )
+    last_name = forms.CharField(
+        label="Last Name",
+        max_length=100,
+    )
+    age = forms.IntegerField(label="Age")
     password = forms.CharField(
-        label="Password", widget=forms.PasswordInput, max_length=18
+        label="Password",
+        widget=forms.PasswordInput(attrs={"class": "inputBox"}),
+        max_length=18,
     )
 
     def clean_email(self):
@@ -81,7 +94,14 @@ class UserRegistrationForm(forms.Form):
 
 
 class OtpForm(forms.Form):
-    code = forms.IntegerField()
+    code = forms.IntegerField(
+        widget=forms.NumberInput(
+            attrs={
+                "class": "btn btn-outline-warning text-dark user",
+                "style": "height: 50px; width:200px;",
+            }
+        )
+    )
 
 
 class UserLoginForm(forms.Form):
