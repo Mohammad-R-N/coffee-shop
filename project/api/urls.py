@@ -1,5 +1,9 @@
 from django.urls import path
-from . import views
+from .views import accounts_views as av
+from .views import interactions_views as iv
+from .views import product_views as pv
+from .views import carts_views as cv
+
 
 app_name = "api"
-urlpatterns = []
+urlpatterns = [path("register/", av.UserRegister.as_view(), name="register-api")]
