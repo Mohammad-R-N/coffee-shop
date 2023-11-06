@@ -1,13 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>Checkout</h3>
-<p>Total: {{ order.get_total_price }}</p>
-<br><br>
-<form action="{% url 'carts:apply_coupon' order.id %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Apply">
-</form>
-<a href="{% url 'carts:request' order.id %}" class="btn btn-primary">Pay</a>
+
+
+<div class="container my-3">
+
+    <table class=" table table-warning">
+        <thead>
+            <tr>
+                <th scope="col" class="text-dark">
+                    <h3>Checkout</h3>
+                </th>
+                <th scope="col" class="text-dark">TOTAL</th>
+                <th scope="col" class="text-dark">Discount</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <th scope="row" class="text-dark"> </th>
+                <td>{{ order.get_total_price }}</td>
+                <td>
+                    <form action="{% url 'carts:apply_coupon' order.id %}" method="post">
+                        {% csrf_token %}
+                        {{ form.code}}
+                        <input class="btn btn-dark text-warning my-1" type="submit" value="Apply">
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <a href="{% url 'carts:request' order.id %}" class="btn btn-dark text-warning my-1">Pay</a>
+
+</div>
+
 {% endblock %}
