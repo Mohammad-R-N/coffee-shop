@@ -2,13 +2,16 @@ from django.shortcuts import render
 from django.views import View
 from products.models import Category, Product
 from django.contrib.postgres.search import TrigramSimilarity
-from django.db.models.functions import Greatest
+from django.core.paginator import Paginator
 
 
 class HomeView(View):
     def get(self, request, category_slug=None):
         products = Product.objects.filter(available=True)
         categories = Category.objects.filter(is_sub=False)
+        p = Paginator(products, 6)
+        page = request.GET.get("page")
+        products = p.get_page(page)
         if category_slug:
             category = Category.objects.get(slug=category_slug)
             products = Product.objects.filter(category=category)
