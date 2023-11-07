@@ -1,0 +1,89 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${USER}
+      POSTGRES_PASSWORD: ${PASSWORD}
+      POSTGRES_DB: ${NAME}
+    networks:
+      - main
+    ports:
+      - 5432:5432
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.12.6
+    networks:
+      - main
+    ports:
+      - 5672:5672
+    volumes:
+      - rabbitmq_data:/rabbitmq_data
+    restart: always
+
+  app:
+    build: .
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py config.wsgi 0.0.0.0:8000"
+    container_name: app
+    volumes:
+      - .:/src/
+    networks:
+      - main
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - 8000:8000
+    restart: always
+
+  celery:
+    container_name: celery
+    build: .
+    command: celery -A config worker -l INFO
+    depends_on:
+      - app
+      - rabbitmq
+      - postgres
+    environment:
+      - C_FORCE_ROOT="true"
+    networks:
+      - main
+    restart: always
+    volumes:
+      - .:/src/
+
+  celery_beat:
+    container_name: celery_beat
+    build: .
+    command: celery -A config beat -l INFO
+    depends_on:
+      - celery
+    networks:
+      - main
+    restart: always
+    volumes:
+      - .:/src/
+
+  redis:
+    container_name: redis
+    image: redis:7.2
+    networks:
+      - main
+    ports:
+      - 6379:6379
+    restart: always
+    volumes:
+      - redis_data:/data
+
+networks:
+  main:
+
+
+volumes:
+  postgres_data:
+  redis_data:
+  rabbitmq_data:
