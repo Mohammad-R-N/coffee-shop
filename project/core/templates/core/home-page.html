@@ -38,6 +38,29 @@
 
         {%endfor%}
     </div>
+    <div class="d-flex my-4 justify-content-center" style="display: inline;">
+
+        {% if products.has_previous%}
+        <div style="display: inline;">
+            <a class="btn btn-dark text-warning mx-1" href="?page=1">first</a>
+            <a class="btn btn-dark text-warning mx-1" href="?page={{products.previous_page_number}}">Previous</a>
+        </div>
+
+        {%endif%}
+
+        <div class=" btn btn-warning text-dark" style="display: inline;">
+            page {{products.number}} of {{products.paginator.num_pages}}
+        </div>
+
+        {%if products.has_next%}
+
+        <div style="display: inline;">
+            <a class="btn btn-dark text-warning mx-1" href="?page={{products.next_page_number}}">next</a>
+            <a class="btn btn-dark text-warning mx-1" href="?page={{products.paginator.num_pages}}">Last</a>
+        </div>
+
+        {%endif%}
+    </div>
 </div>
 
 
