@@ -1,5 +1,7 @@
 from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 class UserRegister(APIView):
-    pass
+    def post(self, request):
+        pass
