@@ -7,7 +7,7 @@ Follow these steps to set up the project locally:
 1. 👉 Clone the repository:
 
    ```bash
-   git clone https://github.com/Mohammad-R-N/Rss-feed.git
+   git clone https://github.com/Mohammad-R-N/Rss-feed.git](https://github.com/Mohammad-R-N/coffee-shop.git
    ```
 
 2. 👉 Create a virtual environment (optional but recommended):
