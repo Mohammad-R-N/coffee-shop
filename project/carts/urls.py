@@ -16,7 +16,11 @@ urlpatterns = [
         views.CartRemoveView.as_view(),
         name="cart_remove",
     ),
-    path("apply/<int:order_id>/", views.CouponApplyView.as_view(), name="apply_coupon"),
+    path(
+        "apply/<int:order_id>/",
+        views.DiscountApplyView.as_view(),
+        name="apply_discount",
+    ),
     path("request/<int:order_id>/", views.send_request, name="request"),
     path("verify/", views.verify, name="verify"),
 ]

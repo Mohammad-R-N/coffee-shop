@@ -21,7 +21,7 @@
                 <th scope="row" class="text-dark"> </th>
                 <td>{{ order.get_total_price }}</td>
                 <td>
-                    <form action="{% url 'carts:apply_coupon' order.id %}" method="post">
+                    <form action="{% url 'carts:apply_discount' order.id %}" method="post">
                         {% csrf_token %}
                         {{ form.code}}
                         <input class="btn btn-dark text-warning my-1" type="submit" value="Apply">

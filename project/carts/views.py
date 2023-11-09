@@ -3,8 +3,8 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.contrib import messages
-from .models import Order, OrderItem, Coupon
-from .forms import CartAddForm, CouponApplyForm
+from .models import Order, OrderItem, Discount
+from .forms import CartAddForm, DiscountApplyForm
 from products.models import Product
 from utils import Cart
 import datetime
@@ -37,7 +37,7 @@ class CartRemoveView(View):
 
 
 class OrderDetailView(LoginRequiredMixin, View):
-    form_class = CouponApplyForm
+    form_class = DiscountApplyForm
 
     def get(self, request, order_id):
         order = get_object_or_404(Order, id=order_id)
@@ -61,8 +61,8 @@ class OrderCreateView(LoginRequiredMixin, View):
         return redirect("carts:order_detail", order.id)
 
 
-class CouponApplyView(LoginRequiredMixin, View):
-    form_class = CouponApplyForm
+class DiscountApplyView(LoginRequiredMixin, View):
+    form_class = DiscountApplyForm
 
     def post(self, request, order_id):
         now = datetime.datetime.now()
@@ -70,13 +70,13 @@ class CouponApplyView(LoginRequiredMixin, View):
         if form.is_valid():
             code = form.cleaned_data["code"]
             try:
-                coupon = Coupon.objects.get(
+                coupon = Discount.objects.get(
                     code__exact=code,
                     valid_from__lte=now,
                     valid_to__gte=now,
                     active=True,
                 )
-            except Coupon.DoesNotExist:
+            except Discount.DoesNotExist:
                 messages.error(request, "this coupon does not exists", "danger")
                 return redirect("carts:order_detail", order_id)
             order = Order.objects.get(id=order_id)

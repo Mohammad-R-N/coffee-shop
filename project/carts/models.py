@@ -38,7 +38,7 @@ class OrderItem(models.Model):
         return self.price * self.quantity
 
 
-class Coupon(models.Model):
+class Discount(models.Model):
     code = models.CharField(max_length=30, unique=True)
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()

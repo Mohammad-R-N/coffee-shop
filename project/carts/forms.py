@@ -9,7 +9,7 @@ class CartAddForm(forms.Form):
     )
 
 
-class CouponApplyForm(forms.Form):
+class DiscountApplyForm(forms.Form):
     code = forms.CharField(
         widget=forms.TextInput(attrs={"class": "btn btn-warning text-dark"})
     )
