@@ -26,6 +26,29 @@
             {% endfor %}
         </tbody>
     </table>
+    <div class="d-flex my-4 justify-content-center" style="display: inline;">
+
+        {% if objects.has_previous%}
+        <div style="display: inline;">
+            <a class="btn btn-dark text-warning mx-1" href="?page=1">first</a>
+            <a class="btn btn-dark text-warning mx-1" href="?page={{objects.previous_page_number}}">Previous</a>
+        </div>
+
+        {%endif%}
+
+        <div class=" btn btn-warning text-dark" style="display: inline;">
+            page {{objects.number}} of {{objects.paginator.num_pages}}
+        </div>
+
+        {%if objects.has_next%}
+
+        <div style="display: inline;">
+            <a class="btn btn-dark text-warning mx-1" href="?page={{objects.next_page_number}}">next</a>
+            <a class="btn btn-dark text-warning mx-1" href="?page={{objects.paginator.num_pages}}">Last</a>
+        </div>
+
+        {%endif%}
+    </div>
 </div>
 
 {% endblock %}

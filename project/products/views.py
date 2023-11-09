@@ -9,6 +9,7 @@ from interactions.models import Comment
 from interactions.forms import CommentCreateForm, CommentReplyForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.core.paginator import Paginator
 
 
 class ProductDetailView(View):
@@ -72,6 +73,9 @@ class BucketHome(IsAdminUserMixin, View):
 
     def get(self, request):
         objects = tasks.all_bucket_objects_task()
+        p = Paginator(objects, 10)
+        page = request.GET.get("page")
+        objects = p.get_page(page)
         return render(request, self.template_name, {"objects": objects})
 
 
