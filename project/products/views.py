@@ -10,9 +10,10 @@ from interactions.forms import CommentCreateForm, CommentReplyForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class ProductDetailView(View):
+class ProductDetailView(LoginRequiredMixin, View):
     form_class = CommentCreateForm
     form_class_reply = CommentReplyForm
 
@@ -35,7 +36,6 @@ class ProductDetailView(View):
             },
         )
 
-    @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():

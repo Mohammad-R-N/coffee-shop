@@ -11,6 +11,7 @@ from .form import UserRegistrationForm, OtpForm, UserLoginForm
 from utils import send_otp
 from .models import Otp, User
 import random
+from accounts.tasks import send_email
 
 
 class UserRegistrationView(View):
@@ -28,6 +29,7 @@ class UserRegistrationView(View):
             random_code = random.randint(1000, 9999)
             cd = form.cleaned_data
             send_otp(cd["phone_number"], random_code)
+            send_email.delay(cd["email"], random_code)
             print(f"####### OTP CODE IS {random_code} #######")
             Otp.objects.create(phone_number=cd["phone_number"], code=random_code)
             request.session["user_registration"] = {
